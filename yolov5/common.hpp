@@ -9,6 +9,7 @@
 #include <dirent.h>
 #include "NvInfer.h"
 #include "yololayer.h"
+#include "hardswish.h"
 
 #define CHECK(status) \
     do\

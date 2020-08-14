@@ -10,7 +10,7 @@
 #define CONF_THRESH 0.5
 #define BATCH_SIZE 1
 
-#define NET s  // s m l x
+#define NET x  // s m l x
 #define NETSTRUCT(str) createEngine_##str
 #define CREATENET(net) NETSTRUCT(net)
 #define STR1(x) #x
@@ -178,8 +178,8 @@ ICudaEngine* createEngine_m(unsigned int maxBatchSize, IBuilder* builder, IBuild
     auto bottleneck_csp23 = bottleneckCSP(network, weightMap, *cat22->getOutput(0), 768, 768, 2, false, 1, 0.5, "model.23");
     // yolo layer 2
     IConvolutionLayer* det2 = network->addConvolutionNd(*bottleneck_csp23->getOutput(0), 3 * (Yolo::CLASS_NUM + 5), DimsHW{ 1, 1 }, weightMap["model.24.m.2.weight"], weightMap["model.24.m.2.bias"]);
-
     auto yolo = addYoLoLayer(network, weightMap, det0, det1, det2);
+
     yolo->getOutput(0)->setName(OUTPUT_BLOB_NAME);
     network->markOutput(*yolo->getOutput(0));
 
@@ -249,7 +249,7 @@ ICudaEngine* createEngine_l(unsigned int maxBatchSize, IBuilder* builder, IBuild
     IDeconvolutionLayer* deconv15 = network->addDeconvolutionNd(*conv14->getOutput(0), 256, DimsHW{ 2, 2 }, deconvwts15, emptywts);
     deconv15->setStrideNd(DimsHW{ 2, 2 });
     deconv15->setNbGroups(256);
-    ITensor* inputTensors16[] = { deconv15->getOutput(0), bottleneck_csp4->getOutput(0) };
+    ITensor* inputTensors16[] = {deconv15->getOutput(0), bottleneck_csp4->getOutput(0)};
     auto cat16 = network->addConcatenation(inputTensors16, 2);
 
     auto bottleneck_csp17 = bottleneckCSP(network, weightMap, *cat16->getOutput(0), 512, 256, 3, false, 1, 0.5, "model.17");
@@ -269,6 +269,7 @@ ICudaEngine* createEngine_l(unsigned int maxBatchSize, IBuilder* builder, IBuild
     IConvolutionLayer* det2 = network->addConvolutionNd(*bottleneck_csp23->getOutput(0), 3 * (Yolo::CLASS_NUM + 5), DimsHW{ 1, 1 }, weightMap["model.24.m.2.weight"], weightMap["model.24.m.2.bias"]);
 
     auto yolo = addYoLoLayer(network, weightMap, det0, det1, det2);
+
     yolo->getOutput(0)->setName(OUTPUT_BLOB_NAME);
     network->markOutput(*yolo->getOutput(0));
 
@@ -358,7 +359,6 @@ ICudaEngine* createEngine_x(unsigned int maxBatchSize, IBuilder* builder, IBuild
     auto bottleneck_csp23 = bottleneckCSP(network, weightMap, *cat22->getOutput(0), 1280, 1280, 4, false, 1, 0.5, "model.23");
     // yolo layer 2
     IConvolutionLayer* det2 = network->addConvolutionNd(*bottleneck_csp23->getOutput(0), 3 * (Yolo::CLASS_NUM + 5), DimsHW{ 1, 1 }, weightMap["model.24.m.2.weight"], weightMap["model.24.m.2.bias"]);
-
     auto yolo = addYoLoLayer(network, weightMap, det0, det1, det2);
     yolo->getOutput(0)->setName(OUTPUT_BLOB_NAME);
     network->markOutput(*yolo->getOutput(0));
