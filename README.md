@@ -72,6 +72,7 @@ Following models are implemented.
 |[retinafaceAntiCov](./retinafaceAntiCov)| mobilenet0.25, weights from [deepinsight/insightface](https://github.com/deepinsight/insightface), retinaface anti-COVID-19, detect face and mask attribute |
 |[dbnet](./dbnet)| Scene Text Detection, weights from [BaofengZan/DBNet.pytorch](https://github.com/BaofengZan/DBNet.pytorch) |
 |[crnn](./crnn)| pytorch implementation from [meijieru/crnn.pytorch](https://github.com/meijieru/crnn.pytorch) |
+<<<<<<< HEAD
 |[ufld](./ufld)| pytorch implementation from [Ultra-Fast-Lane-Detection](https://github.com/cfzd/Ultra-Fast-Lane-Detection), ECCV2020 |
 |[hrnet](./hrnet)| hrnet-image-classification, pytorch implementation from [HRNet-Image-Classification](https://github.com/HRNet/HRNet-Image-Classification) |
 |[ssd](./ssd)| ssd(mobilenetv2), pytorch implementation from [qfgaohao/pytorch-ssd](https://github.com/qfgaohao/pytorch-ssd) |
@@ -81,6 +82,8 @@ Following models are implemented.
 The .wts files can be downloaded from model zoo for quick evaluation. But it is recommanded to convert .wts from pytorch/mxnet model, so that you can retrain your own model.
 
 [BaiduPan](https://pan.baidu.com/s/19s6hO8esU7-TtZEXN7G3OA) pwd: uvv2
+=======
+>>>>>>> 3e4fa93... add crnn
 
 ## Tricky Operations
 
