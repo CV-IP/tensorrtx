@@ -25,6 +25,7 @@ const char* INPUT_BLOB_NAME = "data";
 const char* OUTPUT_BLOB_NAME = "prob";
 static Logger gLogger;
 
+
 // Creat the engine using only the API and not any parser.
 ICudaEngine* createEngine_s(unsigned int maxBatchSize, IBuilder* builder, IBuilderConfig* config, DataType dt) {
     INetworkDefinition* network = builder->createNetworkV2(0U);
@@ -249,7 +250,7 @@ ICudaEngine* createEngine_l(unsigned int maxBatchSize, IBuilder* builder, IBuild
     IDeconvolutionLayer* deconv15 = network->addDeconvolutionNd(*conv14->getOutput(0), 256, DimsHW{ 2, 2 }, deconvwts15, emptywts);
     deconv15->setStrideNd(DimsHW{ 2, 2 });
     deconv15->setNbGroups(256);
-    ITensor* inputTensors16[] = {deconv15->getOutput(0), bottleneck_csp4->getOutput(0)};
+    ITensor* inputTensors16[] = { deconv15->getOutput(0), bottleneck_csp4->getOutput(0) };
     auto cat16 = network->addConcatenation(inputTensors16, 2);
 
     auto bottleneck_csp17 = bottleneckCSP(network, weightMap, *cat16->getOutput(0), 512, 256, 3, false, 1, 0.5, "model.17");
@@ -359,6 +360,7 @@ ICudaEngine* createEngine_x(unsigned int maxBatchSize, IBuilder* builder, IBuild
     auto bottleneck_csp23 = bottleneckCSP(network, weightMap, *cat22->getOutput(0), 1280, 1280, 4, false, 1, 0.5, "model.23");
     // yolo layer 2
     IConvolutionLayer* det2 = network->addConvolutionNd(*bottleneck_csp23->getOutput(0), 3 * (Yolo::CLASS_NUM + 5), DimsHW{ 1, 1 }, weightMap["model.24.m.2.weight"], weightMap["model.24.m.2.bias"]);
+
     auto yolo = addYoLoLayer(network, weightMap, det0, det1, det2);
     yolo->getOutput(0)->setName(OUTPUT_BLOB_NAME);
     network->markOutput(*yolo->getOutput(0));
@@ -430,7 +432,8 @@ int main(int argc, char** argv) {
         p.write(reinterpret_cast<const char*>(modelStream->data()), modelStream->size());
         modelStream->destroy();
         return 0;
-    } else if (argc == 3 && std::string(argv[1]) == "-d") {
+    }
+    else if (argc == 3 && std::string(argv[1]) == "-d") {
         std::ifstream file(engine_name, std::ios::binary);
         if (file.good()) {
             file.seekg(0, file.end);
@@ -441,7 +444,8 @@ int main(int argc, char** argv) {
             file.read(trtModelStream, size);
             file.close();
         }
-    } else {
+    }
+    else {
         std::cerr << "arguments not right!" << std::endl;
         std::cerr << "./yolov5 -s  // serialize model to plan file" << std::endl;
         std::cerr << "./yolov5 -d ../samples  // deserialize plan file and run inference" << std::endl;
