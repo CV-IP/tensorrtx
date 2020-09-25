@@ -25,7 +25,6 @@ const char* INPUT_BLOB_NAME = "data";
 const char* OUTPUT_BLOB_NAME = "prob";
 static Logger gLogger;
 
-
 // Creat the engine using only the API and not any parser.
 ICudaEngine* createEngine_s(unsigned int maxBatchSize, IBuilder* builder, IBuilderConfig* config, DataType dt) {
     INetworkDefinition* network = builder->createNetworkV2(0U);
@@ -432,8 +431,7 @@ int main(int argc, char** argv) {
         p.write(reinterpret_cast<const char*>(modelStream->data()), modelStream->size());
         modelStream->destroy();
         return 0;
-    }
-    else if (argc == 3 && std::string(argv[1]) == "-d") {
+    } else if (argc == 3 && std::string(argv[1]) == "-d") {
         std::ifstream file(engine_name, std::ios::binary);
         if (file.good()) {
             file.seekg(0, file.end);
@@ -444,8 +442,7 @@ int main(int argc, char** argv) {
             file.read(trtModelStream, size);
             file.close();
         }
-    }
-    else {
+    } else {
         std::cerr << "arguments not right!" << std::endl;
         std::cerr << "./yolov5 -s  // serialize model to plan file" << std::endl;
         std::cerr << "./yolov5 -d ../samples  // deserialize plan file and run inference" << std::endl;

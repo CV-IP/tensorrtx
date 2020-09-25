@@ -173,7 +173,6 @@ namespace nvinfer1
         int info_len_i = 5 + classes;
         const float* curInput = input + bnIdx * (info_len_i * total_grid * CHECK_COUNT);
 
-
         for (int k = 0; k < 3; ++k) {
             float box_prob = Logist(curInput[idx + k * info_len_i * total_grid + 4 * total_grid]);
             if (box_prob < IGNORE_THRESH) continue;
